@@ -1,16 +1,23 @@
 package UT02.Parking;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Main {
     private final static int LIMITE_PARKING = 100;
-    private final static float TARIFA_MINUTO = (float)0.05;
+    private final static double TARIFA_MINUTO = 0.05;
     // variables global
     private static double recaudacionFinal;
     private static int cochesEntraron;
     private static int cochesSalieron;
     private static BlockingQueue<Coche> colaParking;
+    private static ConcurrentHashMap<String,Double> tarifasPagadasPorMatricula;
+    private final static String nombreFichero = "pagosPorMatricula.txt";
 
     public static void main(String[] args) throws InterruptedException {
         // variable
@@ -19,6 +26,7 @@ public class Main {
         cochesSalieron = 0;
 
         colaParking = new LinkedBlockingQueue<Coche>(LIMITE_PARKING);
+        tarifasPagadasPorMatricula = new ConcurrentHashMap<String,Double>();
 
         HiloMonitor hiloMonitor = new HiloMonitor(2);
 
@@ -61,14 +69,32 @@ public class Main {
                 + "\t Coches restantes en parking: " + colaParking.size());
 
         System.out.println("Fin de la simulación.");
+
+        // mostrar por consola el contenido del HashMap
+        // for(String matricula : tarifasPagadasPorMatricula.keySet()){
+        //     System.out.println(matricula+" "+tarifasPagadasPorMatricula.get(matricula));
+        // }
+
+        // almacenamos el HashMap en un fichero txt
+        try{
+            File fichero = new File(nombreFichero);
+            if(fichero.exists()) {// comprobamos si el fichero ya existe
+                guardarEnFichero(fichero,false);
+            }else{
+                if(fichero.createNewFile()){ // si no existe lo intentamos crear
+                    System.out.println("Fichero "+nombreFichero+" creado.");
+                    guardarEnFichero(fichero,true);
+                }else{
+                    System.out.println("Error al crear el fichero. La información no ha sido guardada");
+                }
+            }
+        }catch(IOException e){
+            System.out.println("Error al guardar en fichero.");
+        }
     }
 
-    public static float calcularCosteTotal(int minutos) {
-        return minutos * TARIFA_MINUTO;
-    }
-
-    public synchronized static void sumarRecaudacionFinal(float suma) {
-        recaudacionFinal += suma;
+    public static double calcularCosteTotal(int minutos) {
+        return Math.round((minutos * TARIFA_MINUTO)*100)/100.0;
     }
 
     public synchronized static void sumarCochesEntraron(int suma) {
@@ -77,6 +103,11 @@ public class Main {
 
     public synchronized static void sumarCochesSalieron(int suma) {
         cochesSalieron += suma;
+    }
+
+    public synchronized static void agregarTarifaMatricula(String matricula, Double tarifa){
+        tarifasPagadasPorMatricula.put(matricula, tarifa);
+        recaudacionFinal += tarifa;
     }
 
     public static int getPlazasOcupadas(){
@@ -93,5 +124,20 @@ public class Main {
 
     public static int getCochesSalieron(){
         return cochesSalieron;
+    }
+
+    public static void guardarEnFichero(File fichero,boolean ficheroNuevo){
+        try {
+            FileWriter fw = new FileWriter(fichero,true); // true para no sobreescribir
+            if(ficheroNuevo) fw.write("matricula | pagado\n"); // si el fichero se acaba de crear agregamos una línea para saber el orden de la información que se guarda
+            for (String matricula : tarifasPagadasPorMatricula.keySet()) {
+                double pagado = tarifasPagadasPorMatricula.get(matricula);
+                fw.write(matricula + " | " + String.valueOf(pagado) + "€\n");
+            }
+            fw.close();
+            System.out.println("Información guardada en " + nombreFichero);
+        }catch(IOException e){
+            System.out.println("Error al guardar la información en el fichero.");
+        }
     }
 }

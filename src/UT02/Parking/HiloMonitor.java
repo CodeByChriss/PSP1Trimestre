@@ -17,7 +17,7 @@ public class HiloMonitor extends Thread{
                 System.out.println("\nMonitoreo:"
                     +"\n\t Plazas ocupadas: "+Main.getPlazasOcupadas()
                     +"\n\t Coches que han entrado y coches que han salido: "+Main.getCochesEntraron()+" / "+Main.getCochesSalieron()
-                    +"\n\t Recaudación acumulada: "+(Math.round(Main.getRecaudacionAcumulada()*100)/100.0)+"\n");
+                    +"\n\t Recaudación acumulada: "+(Math.round(Main.getRecaudacionAcumulada()*100)/100.0)+" €\n");
             }
         }catch(InterruptedException e){
             Thread.currentThread().interrupt();

@@ -26,11 +26,12 @@ public class HiloSalida extends Thread{
 
                 Coche coche = colaParking.take();
 
+                String matricula = coche.getMatricula();
                 int minutosEnParking = coche.calcularMinutosEnParking();
-                float aPagar = Main.calcularCosteTotal(minutosEnParking);
-                Main.sumarRecaudacionFinal(aPagar);
+                double aPagar = Main.calcularCosteTotal(minutosEnParking);
+                Main.agregarTarifaMatricula(matricula,aPagar);
                 Main.sumarCochesSalieron(1);
-                System.out.println("<- Salida ("+nombre+"): ["+coche.getMatricula()+"] | Estancia:  "+minutosEnParking+" min | Cote: "+aPagar+" €");
+                System.out.println("<- Salida ("+nombre+"): ["+matricula+"] | Estancia:  "+minutosEnParking+" min | Cote: "+aPagar+" €");
             }
         }catch(InterruptedException e) {
             Thread.currentThread().interrupt();
