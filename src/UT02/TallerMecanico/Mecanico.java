@@ -29,6 +29,7 @@ public class Mecanico implements Runnable{
         }catch(InterruptedException e){
             Thread.currentThread().interrupt();
         }
+        System.out.println(id+" terminó su jornada.");
     }
 
     public int getTotalDeTrabajos(){
