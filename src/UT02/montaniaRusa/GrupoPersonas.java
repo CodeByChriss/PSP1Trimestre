@@ -11,7 +11,8 @@ public class GrupoPersonas {
 
         // un grupo con discapacidad no puede superar el número de asientos reservados
         // para ellos porque si no nunca se subirian.
-        // En la vida real, si fueran por ejemplo 10 personas, deben dividirse en grupos.
+        // En la vida real, si fueran por ejemplo 10 personas con discapacidad,
+        // deberian dividirse en grupos.
         int limitePersonas = this.conDiscapacidad ? Main.getAsientosDiscapacidad() : 10;
 
         this.cantidadPersonas = (int) (Math.random() * ((limitePersonas - 1) +1));

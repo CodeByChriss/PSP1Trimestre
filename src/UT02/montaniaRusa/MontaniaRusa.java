@@ -1,5 +1,6 @@
 package UT02.montaniaRusa;
 
+import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 
 public class MontaniaRusa extends Thread{
@@ -14,8 +15,17 @@ public class MontaniaRusa extends Thread{
     @Override
     public void run(){
         try{
+            ArrayList<GrupoPersonas> personasEnAtraccion = new ArrayList<GrupoPersonas>();
             while(running){
-                Thread.sleep(1);
+                System.out.println("LLENANDO VAGONES");
+                // agregar metodo para saber cual es la mejor forma de usar todos los asientos de la atraccion
+
+                System.out.println("ATRACCION INICIADA");
+                Thread.sleep(Main.TIEMPO_ATRACCION*1000);
+                System.out.println("ATRACCION FINALIZADA");
+
+                personasEnAtraccion.clear();
+                System.out.println("VAGONES VACIOS");
             }
         }catch(InterruptedException e){
             System.out.println("Error, hilo montaniaRusa interrumpido");

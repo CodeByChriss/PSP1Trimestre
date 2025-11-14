@@ -21,7 +21,8 @@ public class GeneradorGrupos extends Thread {
                     GrupoPersonas grupoPersonas = new GrupoPersonas();
                     System.out.println("ENTRANDO GRUPO DE ["+grupoPersonas.getCantidadPersonas()+"] ["+(grupoPersonas.isConDiscapacidad() ? "CON" : "SIN")+"] DISCAPACIDAD.");
                 }
-                Thread.sleep(10000);
+                int tiempoSleep = (int) (Math.random() * ((20 - 5) + 5));
+                Thread.sleep(tiempoSleep*1000);
             }
         }catch(InterruptedException e){
             System.out.println("Error, hilo generador grupos interrumpido");
