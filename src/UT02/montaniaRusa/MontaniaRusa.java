@@ -18,7 +18,8 @@ public class MontaniaRusa extends Thread{
             ArrayList<GrupoPersonas> personasEnAtraccion = new ArrayList<GrupoPersonas>();
             while(running){
                 System.out.println("LLENANDO VAGONES");
-                // agregar metodo para saber cual es la mejor forma de usar todos los asientos de la atraccion
+                // agregar metodo para saber cual es la mejor forma de usar todos los asientos de los vagones
+                System.out.println("VAGONES ["+0+"/"+Main.ASIENTOS_TOTALES+"]. CON DISCAPACIDAD ["+0+"/"+Main.ASIENTOS_DISCAPACIDAD+"]");
 
                 System.out.println("ATRACCION INICIADA");
                 Thread.sleep(Main.TIEMPO_ATRACCION*1000);

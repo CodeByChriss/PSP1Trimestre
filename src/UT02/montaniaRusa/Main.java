@@ -5,10 +5,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class Main {
 
-    private final static int ASIENTOS_DISCAPACIDAD = 4;
-    private final static int ASIENTOS_TOTALES = 25;
-    private final static int TIEMPO_EJECUCION = 20;
+    public final static int ASIENTOS_DISCAPACIDAD = 4;
+    public final static int ASIENTOS_TOTALES = 25;
     public final static int TIEMPO_ATRACCION = 7; // tiempo que van a estar subidos a la atracción
+    private final static int TIEMPO_EJECUCION = 20;
 
     public static void main(String[]args){
         BlockingQueue<GrupoPersonas> cola = new LinkedBlockingQueue<GrupoPersonas>();
@@ -51,9 +51,5 @@ public class Main {
         montaniaRusa.interrupt();
 
         System.out.println("Simulación finalizada.");
-    }
-
-    public static int getAsientosDiscapacidad(){
-        return ASIENTOS_DISCAPACIDAD;
     }
 }
