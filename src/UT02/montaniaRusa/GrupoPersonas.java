@@ -13,7 +13,7 @@ public class GrupoPersonas {
         // para ellos porque si no nunca se subirian.
         // En la vida real, si fueran por ejemplo 10 personas con discapacidad,
         // deberian dividirse en grupos.
-        int limitePersonas = this.conDiscapacidad ? Main.getAsientosDiscapacidad() : 10;
+        int limitePersonas = this.conDiscapacidad ? Main.ASIENTOS_DISCAPACIDAD : 10;
 
         this.cantidadPersonas = (int) (Math.random() * ((limitePersonas - 1) +1));
     }
