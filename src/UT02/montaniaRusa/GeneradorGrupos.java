@@ -16,9 +16,10 @@ public class GeneradorGrupos extends Thread {
             while(running){
                 // cantidad de grupos que se van a generar de una tanda
                 // (simulamos que van a entrar X grupos al parque de atracciones)
-                int cantidadGrupos = (int) (Math.random() * ((12 - 5) +5));
+                int cantidadGrupos = (int) (Math.random() * (12 - 5 + 1)) + 5;
                 for(int i = 0; i<cantidadGrupos; i++){
                     GrupoPersonas grupoPersonas = new GrupoPersonas();
+                    cola.put(grupoPersonas);
                     System.out.println("ENTRANDO GRUPO DE ["+grupoPersonas.getCantidadPersonas()+"] ["+(grupoPersonas.isConDiscapacidad() ? "CON" : "SIN")+"] DISCAPACIDAD.");
                 }
                 int tiempoSleep = (int) (Math.random() * ((20 - 5) + 5));

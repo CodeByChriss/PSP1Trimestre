@@ -13,11 +13,11 @@ public class Main {
     public static void main(String[]args){
         BlockingQueue<GrupoPersonas> cola = new LinkedBlockingQueue<GrupoPersonas>();
 
-        MontaniaRusa montaniaRusa = new MontaniaRusa(cola);
         GeneradorGrupos generadorGrupos = new GeneradorGrupos(cola);
+        MontaniaRusa montaniaRusa = new MontaniaRusa(cola);
 
-        montaniaRusa.start();
         generadorGrupos.start();
+        montaniaRusa.start();
 
         // Dejamos un rato de simulación
         try{

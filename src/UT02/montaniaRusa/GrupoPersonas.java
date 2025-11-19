@@ -15,7 +15,7 @@ public class GrupoPersonas {
         // deberian dividirse en grupos.
         int limitePersonas = this.conDiscapacidad ? Main.ASIENTOS_DISCAPACIDAD : 10;
 
-        this.cantidadPersonas = (int) (Math.random() * ((limitePersonas - 1) +1));
+        this.cantidadPersonas = (int) (Math.random() * limitePersonas) + 1;
     }
 
     public int getCantidadPersonas() {
