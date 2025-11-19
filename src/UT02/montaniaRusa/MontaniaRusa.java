@@ -1,5 +1,6 @@
 package UT02.montaniaRusa;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 
@@ -18,8 +19,34 @@ public class MontaniaRusa extends Thread{
             ArrayList<GrupoPersonas> personasEnAtraccion = new ArrayList<GrupoPersonas>();
             while(running){
                 System.out.println("LLENANDO VAGONES");
-                // agregar metodo para saber cual es la mejor forma de usar todos los asientos de los vagones
-                System.out.println("VAGONES ["+0+"/"+Main.ASIENTOS_TOTALES+"]. CON DISCAPACIDAD ["+0+"/"+Main.ASIENTOS_DISCAPACIDAD+"]");
+
+                ArrayList<GrupoPersonas> candidatos = new ArrayList<GrupoPersonas>();
+                for(int i = 0; i<cola.size(); i++){
+                    GrupoPersonas gp = cola.take();
+                    candidatos.add(gp);
+                }
+                ArrayList<GrupoPersonas> mejorLista = new ArrayList<GrupoPersonas>();
+                int mejorSuma = 0;
+
+                for (int mask = 0; mask < (1 << cola.size()); mask++) {
+                    int sumaActual = 0;
+                    ArrayList<GrupoPersonas> actual = new ArrayList<GrupoPersonas>();
+
+                    for (int i = 0; i < cola.size(); i++) {
+                        if ((mask & (1 << i)) != 0) {
+                            sumaActual += candidatos.get(i).getCantidadPersonas();
+                            actual.add(candidatos.get(i));
+                        }
+                    }
+
+                    if (sumaActual <= Main.ASIENTOS_TOTALES && sumaActual > mejorSuma) {
+                        mejorSuma = sumaActual;
+                        System.out.println("-----ESTOY AQUIIIII");
+                        mejorLista = new ArrayList<>(actual);
+                    }
+                }
+
+                System.out.println("VAGONES ["+mejorSuma+"/"+Main.ASIENTOS_TOTALES+"]. CON DISCAPACIDAD ["+0+"/"+Main.ASIENTOS_DISCAPACIDAD+"]");
 
                 System.out.println("ATRACCION INICIADA");
                 Thread.sleep(Main.TIEMPO_ATRACCION*1000);
