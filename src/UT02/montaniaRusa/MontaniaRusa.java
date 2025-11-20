@@ -51,41 +51,26 @@ public class MontaniaRusa extends Thread{
                 }
 
                 // Ahora los grupos sin discapacidad
-                ArrayList<GrupoPersonas> candidatos = new ArrayList<GrupoPersonas>(sinDiscapacidad);
-                ArrayList<GrupoPersonas> mejorListaNormales = new ArrayList<GrupoPersonas>();
-                int mejorSumaNormales = 0;
-                int n = candidatos.size();
-                int limite = totalesLibres;
+                ArrayList<GrupoPersonas> listaFinal = new ArrayList<GrupoPersonas>();
+                int sinDiscSubidos = 0;
 
-                for (int mask = 0; mask < (1 << n); mask++) {
-                    int sumaActual = 0;
-                    ArrayList<GrupoPersonas> actual = new ArrayList<GrupoPersonas>();
-
-                    for (int i = 0; i < n; i++) {
-                        if ((mask & (1 << i)) != 0) {
-                            sumaActual += candidatos.get(i).getCantidadPersonas();
-                            actual.add(candidatos.get(i));
-
-                            if (sumaActual > limite)
-                                break;
-                        }
-                    }
-
-                    if (sumaActual <= limite && sumaActual > mejorSumaNormales) {
-                        mejorSumaNormales = sumaActual;
-                        mejorListaNormales = new ArrayList<>(actual);
+                for (int i = 0; i < sinDiscapacidad.size() && totalesLibres > 0; i++) {
+                    GrupoPersonas grupoActual = sinDiscapacidad.get(i);
+                    if(grupoActual.getCantidadPersonas() < totalesLibres){
+                        sinDiscSubidos += grupoActual.getCantidadPersonas();
+                        totalesLibres -= grupoActual.getCantidadPersonas();
                     }
                 }
 
-                seleccionados.addAll(mejorListaNormales);
-                int mejorSuma = discPersonasSubidas + mejorSumaNormales;
+                seleccionados.addAll(listaFinal);
+                int asientosOcupados = discPersonasSubidas + sinDiscSubidos;
 
                 // Remover los seleccionados de la cola (simula que subieron)
                 for (GrupoPersonas g : seleccionados) {
                     cola.remove(g);
                 }
 
-                System.out.println("VAGONES ["+mejorSuma+"/"+Main.ASIENTOS_TOTALES+"]. CON DISCAPACIDAD ["+discPersonasSubidas+"/"+Main.ASIENTOS_DISCAPACIDAD+"]");
+                System.out.println("VAGONES ["+asientosOcupados+"/"+Main.ASIENTOS_TOTALES+"]. CON DISCAPACIDAD ["+discPersonasSubidas+"/"+Main.ASIENTOS_DISCAPACIDAD+"]");
 
                 System.out.println("ATRACCION INICIADA");
                 Thread.sleep(Main.TIEMPO_ATRACCION*1000);
